@@ -46,7 +46,13 @@ in
 
   networking.hostName = "ystv-remote-encoder"; # Define your hostname.
 
-  age.secrets.wifi-mydevices-password.file = ../secrets/wifi-mydevices-password.age;
+  age.secrets.wifi-mydevices-password = {
+    file = ../secrets/wifi-mydevices-password.age;
+    path = "/run/secrets/wifi-mydevices-password.env";
+    owner = "root";
+    group = "root";
+    mode = "0400";
+  };
 
   networking.networkmanager.enable = true;
 
