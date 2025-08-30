@@ -26,9 +26,6 @@ in
   boot.kernelModules = [ "wl" ];
   hardware.enableRedistributableFirmware = true;
   boot.extraModulePackages = with pkgs.linuxPackages; [ broadcom_sta ];
-  nixpkgs.config.permittedInsecurePackages = [
-    "broadcom-sta-6.30.223.271-57-6.12.43"
-  ];
 
   isoImage.makeEfiBootable = true;
   isoImage.makeUsbBootable = true;
