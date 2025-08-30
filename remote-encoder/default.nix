@@ -14,7 +14,6 @@
 let
   locale = "en_GB.UTF-8";
   timezone = "Europe/London";
-  wifiMydevicesPassword = builtins.readFile config.age.secrets.wifi-password.path;
 in
 {
   nix.settings.experimental-features = [
@@ -46,14 +45,13 @@ in
   ];
 
   networking.hostName = "ystv-remote-encoder"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  age.secrets."wifi-password.age".file = ../secrets/wifi-password.age;
+  age.secrets.wifi-mydevices-password.file = ../secrets/wifi-mydevices-password.age;
 
   networking.networkmanager.enable = true;
 
   networking.networkmanager.ensureProfiles = {
-    environmentFiles = [ config.age.secrets."wifi-mydevicespassword.age".path ];
+    environmentFiles = [ config.age.secrets.wifi-mydevices-password.path ];
     profiles = {
       "mydevices-wifi" = {
         connection = {
@@ -67,7 +65,7 @@ in
         };
         wifi-security = {
           key-mgmt = "wpa-psk";
-          psk = lib.strings.trim wifiMydevicesPassword;
+          psk = "$WIFI_MYDEVICES_PASSWORD";
         };
       };
     };
