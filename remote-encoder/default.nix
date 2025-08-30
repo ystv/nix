@@ -78,6 +78,13 @@ in
     shell = pkgs.zsh;
   };
 
+  users.users.root.hashedPassword = "$y$j9T$uphD.j1c70afhycuLzw0B1$4xwBe7QHAgEfJHtXQIXtFiQTVuMSDPnwvHsQKFmtai8";
+
+  services.getty.autologin = {
+    enable = true;
+    user = "broadcast";
+  };
+
   environment.systemPackages = with pkgs; [
     vim
     wget

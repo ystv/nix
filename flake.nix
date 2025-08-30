@@ -63,6 +63,7 @@
           system = "x86_64-linux";
           specialArgs = sharedArgs;
           modules = commonModules ++ [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
             {
               nixpkgs.pkgs = stable-pkgs;
             }
