@@ -18,6 +18,25 @@ in
     "flakes"
   ];
 
+  nix.settings.trusted-users = [ "broadcast" ];
+
+  users.users.root.openssh.authorizedKeys.keys = [
+    ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAKbv0CfhD/1mE+OORtFtHcj9PA3Gal6S/+czXp82B0t archessmn@macbook''
+  ];
+
+  security.sudo.extraRules = [
+    {
+      users = [ "broadcast" ];
+      runAs = "ALL:ALL";
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -115,7 +134,8 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
+    wget
+    git
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
