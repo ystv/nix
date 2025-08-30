@@ -65,6 +65,8 @@
           modules = commonModules ++ [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
             {
+              isoImage.isoName = "nixos-remote-encoder.iso";
+
               nixpkgs.pkgs = stable-pkgs;
             }
             ./remote-encoder
