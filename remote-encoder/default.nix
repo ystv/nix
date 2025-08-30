@@ -91,6 +91,7 @@ in
     curl
     dig
     speedtest-cli
+    ffmpeg-full
   ];
 
   services.openssh = {
@@ -100,6 +101,8 @@ in
   };
 
   system.stateVersion = "25.05";
+
+  hardware.decklink.enable = true;
 
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
