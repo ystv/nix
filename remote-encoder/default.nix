@@ -14,6 +14,7 @@
 let
   locale = "en_GB.UTF-8";
   timezone = "Europe/London";
+  wifiMydevicesPassword = builtins.readFile config.age.secrets.wifi-password.path;
 in
 {
   nix.settings.experimental-features = [
@@ -21,6 +22,10 @@ in
     "flakes"
   ];
   nix.settings.trusted-users = [ "broadcast" ];
+
+  boot.kernelModules = [ "wl" ];
+  hardware.enableRedistributableFirmware = true;
+  boot.extraModulePackages = with pkgs.linuxPackages; [ broadcom_sta ];
 
   isoImage.makeEfiBootable = true;
   isoImage.makeUsbBootable = true;
@@ -43,7 +48,30 @@ in
   networking.hostName = "ystv-remote-encoder"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  age.secrets."wifi-password.age".file = ../secrets/wifi-password.age;
+
   networking.networkmanager.enable = true;
+
+  networking.networkmanager.ensureProfiles = {
+    environmentFiles = [ config.age.secrets."wifi-mydevicespassword.age".path ];
+    profiles = {
+      "mydevices-wifi" = {
+        connection = {
+          id = "mydevices-wifi";
+          type = "wifi";
+          autoconnect = true;
+        };
+        wifi = {
+          ssid = "mydevices";
+          mode = "infrastructure";
+        };
+        wifi-security = {
+          key-mgmt = "wpa-psk";
+          psk = lib.strings.trim wifiMydevicesPassword;
+        };
+      };
+    };
+  };
 
   time.timeZone = "${timezone}";
 
