@@ -22,6 +22,9 @@ in
   ];
   nix.settings.trusted-users = [ "broadcast" ];
 
+  isoImage.makeEfiBootable = true;
+  isoImage.makeUsbBootable = true;
+
   environment.enableAllTerminfo = true;
 
   security.sudo.extraRules = [
@@ -71,7 +74,7 @@ in
     ];
     ignoreShellProgramCheck = true;
     hashedPassword = "$y$j9T$Z6/JnpXpDqRCvgFs6O/Fq0$aVgg./1VNie8Gy7EKh0auuNp3e/NwEqjdJSmDuLLrJ/";
-    shell = pkgs.zsh;
+    shell = pkgs.bashInteractive;
   };
 
   users.users.root.hashedPassword = "$y$j9T$uphD.j1c70afhycuLzw0B1$4xwBe7QHAgEfJHtXQIXtFiQTVuMSDPnwvHsQKFmtai8";
@@ -88,6 +91,7 @@ in
     dig
     speedtest-cli
     ffmpeg-full
+    bashInteractive
   ];
 
   services.openssh = {
