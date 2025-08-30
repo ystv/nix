@@ -13,8 +13,6 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    minegrub-theme.url = "github:Lxtharia/minegrub-theme";
   };
 
   outputs =
@@ -22,7 +20,6 @@
       nixpkgs,
       home-manager,
       agenix,
-      minegrub-theme,
       ...
     }:
     let
@@ -46,7 +43,6 @@
 
       commonModules = [
         # home-manager.nixosModules.home-manager
-        inputs.minegrub-theme.nixosModules.default
         agenix.nixosModules.default
       ];
     in

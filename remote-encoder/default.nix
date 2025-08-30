@@ -23,21 +23,8 @@ in
   nix.settings.trusted-users = [ "broadcast" ];
 
   # Bootloader.
-  boot.loader = {
-    efi = {
-      canTouchEfiVariables = true;
-    };
-    grub = {
-      efiSupport = true;
-      device = lib.mkDefault "nodev";
-      minegrub-theme = {
-        enable = true;
-        splash = "100% flakes!";
-        background = "background_options/1.8  - [Classic Minecraft].png";
-        boot-options-count = 4;
-      };
-    };
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   environment.enableAllTerminfo = true;
 
@@ -87,6 +74,7 @@ in
       "docker"
     ];
     ignoreShellProgramCheck = true;
+    hashedPassword = "$y$j9T$Z6/JnpXpDqRCvgFs6O/Fq0$aVgg./1VNie8Gy7EKh0auuNp3e/NwEqjdJSmDuLLrJ/";
     shell = pkgs.zsh;
   };
 
