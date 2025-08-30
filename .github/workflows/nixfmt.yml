@@ -1,0 +1,16 @@
+name: Check Nix Format
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  nixfmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cachix/install-nix-action@v15
+      - run: nixfmt --check
