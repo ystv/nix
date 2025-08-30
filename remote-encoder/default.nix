@@ -14,7 +14,6 @@
 let
   locale = "en_GB.UTF-8";
   timezone = "Europe/London";
-
 in
 {
   nix.settings.experimental-features = [

@@ -3,7 +3,10 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
+let
+  locale = "en_GB.UTF-8";
+  timezone = "Europe/London";
+in
 {
   imports = [
     # Include the results of the hardware scan.
