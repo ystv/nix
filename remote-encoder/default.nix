@@ -22,10 +22,6 @@ in
   ];
   nix.settings.trusted-users = [ "broadcast" ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   environment.enableAllTerminfo = true;
 
   security.sudo.extraRules = [
