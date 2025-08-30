@@ -1,3 +1,5 @@
+name: Check Nix Format
+
 on:
   push:
     branches:
@@ -5,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   nixfmt:
     runs-on: ubuntu-latest
