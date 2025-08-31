@@ -153,6 +153,7 @@ in
       '';
       Restart = "always";
       RestartSec = "5s";
+      Environment = "GST_PLUGIN_SYSTEM_PATH_1_0=${pkgs.gst_all_1.gst-plugins-bad}/lib/gstreamer-1.0";
     };
   };
 
