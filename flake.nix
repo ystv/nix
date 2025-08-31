@@ -65,7 +65,7 @@
         remote-encoder = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = sharedArgs;
-          modules = commonModules ++ [
+          modules = [
             "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
             {
               image.fileName = "nixos-remote-encoder.iso";

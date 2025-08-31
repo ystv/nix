@@ -46,18 +46,9 @@ in
 
   networking.hostName = "ystv-remote-encoder"; # Define your hostname.
 
-  age.secrets.wifi-mydevices-password = {
-    file = ../secrets/wifi-mydevices-password.age;
-    path = "/run/secrets/wifi-mydevices-password.env";
-    owner = "root";
-    group = "root";
-    mode = "0400";
-  };
-
   networking.networkmanager.enable = true;
 
   networking.networkmanager.ensureProfiles = {
-    environmentFiles = [ config.age.secrets.wifi-mydevices-password.path ];
     profiles = {
       "mydevices-wifi" = {
         connection = {
@@ -71,7 +62,9 @@ in
         };
         wifi-security = {
           key-mgmt = "wpa-psk";
-          psk = "$WIFI_MYDEVICES_PASSWORD";
+          # This is not really a secret as just knowing this provides no access to the network
+          # Any devices using this must be registered on mydevices
+          psk = "connectme";
         };
       };
     };
