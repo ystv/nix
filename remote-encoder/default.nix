@@ -16,7 +16,7 @@ let
   timezone = "Europe/London";
 
   gstPlugins = with pkgs.gst_all_1; [
-    gstreamer
+    gstreamer.out
     gst-plugins-base
     gst-plugins-good
     gst-plugins-bad
