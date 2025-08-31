@@ -117,7 +117,42 @@ in
     speedtest-cli
     ffmpeg-full
     bashInteractive
+
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gst-libav
+
+    blackmagic-desktop-video
   ];
+
+  systemd.services.decklink-srt-stream = {
+    enable = true;
+    description = "Stream DeckLink input to MediaMTX over SRT";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      ExecStart = ''
+        ${pkgs.gst_all_1.gstreamer}/bin/gst-launch-1.0 -v \
+          decklinkvideosrc device-number=0 connection=sdi mode=1080p50 ! \
+            queue ! videoconvert ! \
+            x264enc tune=zerolatency bitrate=8000 speed-preset=superfast key-int-max=50 ! \
+            queue ! mux. \
+          decklinkaudiosrc device-number=0 ! \
+            queue ! audioconvert ! audioresample ! \
+            voaacenc bitrate=192000 ! \
+            queue ! mux. \
+          mpegtsmux name=mux alignment=7 ! \
+          srtsink uri="srt://host.moir.xyz:6969?streamid=publish:zenith"
+      '';
+      Restart = "always";
+      RestartSec = "5s";
+    };
+  };
 
   services.openssh = {
     enable = true;
