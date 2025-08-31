@@ -163,7 +163,10 @@ in
       '';
       Restart = "always";
       RestartSec = "5s";
-      Environment = "GST_PLUGIN_SYSTEM_PATH_1_0=${pluginPaths}";
+      Environment = ''
+        GST_PLUGIN_SYSTEM_PATH_1_0=${pluginPaths}
+        LD_LIBRARY_PATH=${pkgs.blackmagic-desktop-video}/lib
+      '';
     };
   };
 
