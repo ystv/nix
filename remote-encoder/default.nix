@@ -118,6 +118,8 @@ in
     ffmpeg-full
     bashInteractive
 
+    ca-certificates
+
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
