@@ -14,6 +14,15 @@
 let
   locale = "en_GB.UTF-8";
   timezone = "Europe/London";
+
+  gstPlugins = with pkgs.gst_all_1; [
+    gst-plugins-base
+    gst-plugins-good
+    gst-plugins-bad
+    gst-plugins-ugly
+    gst-libav
+  ];
+  pluginPaths = builtins.concatStringsSep ":" (map (p: "${p}/lib/gstreamer-1.0") gstPlugins);
 in
 {
   nix.settings.experimental-features = [
@@ -153,7 +162,7 @@ in
       '';
       Restart = "always";
       RestartSec = "5s";
-      Environment = "GST_PLUGIN_SYSTEM_PATH_1_0=${pkgs.gst_all_1.gst-plugins-bad}/lib/gstreamer-1.0";
+      Environment = "GST_PLUGIN_SYSTEM_PATH_1_0=${pluginPaths}";
     };
   };
 
