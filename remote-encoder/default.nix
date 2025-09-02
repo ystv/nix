@@ -151,15 +151,18 @@ in
       ExecStart = ''
         ${pkgs.gst_all_1.gstreamer}/bin/gst-launch-1.0 -v \
           decklinkvideosrc device-number=0 connection=sdi mode=1080p50 ! \
-            queue ! videoconvert ! \
+            queue leaky=downstream max-size-buffers=10 ! videoconvert ! \
+            video/x-raw,format=I420 ! videorate ! \
             x264enc tune=zerolatency bitrate=8000 speed-preset=superfast key-int-max=50 ! \
-            queue ! mux. \
+            queue ! identity sync=true ! mux. \
           decklinkaudiosrc device-number=0 ! \
-            queue ! audioconvert ! audioresample ! \
+            queue leaky=downstream max-size-buffers=10 ! audioconvert ! audioresample ! \
+            audio/x-raw,channels=2,rate=48000 ! \
             voaacenc bitrate=192000 ! \
-            queue ! mux. \
-          mpegtsmux name=mux alignment=7 ! \
-          srtsink uri="srt://host.moir.xyz:6969?streamid=publish:zenith"
+            audio/mpeg,mpegversion=4,framed=true,stream-format=raw ! \
+            queue ! identity sync=true ! mux. \
+          mpegtsmux name=mux alignment=7 latency=200 ! \
+          srtsink uri="srt://host.moir.xyz:6969?streamid=publish:zenith" sync=false
       '';
       Restart = "always";
       RestartSec = "5s";
