@@ -45,7 +45,7 @@ stdenv.mkDerivation rec {
         SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 
         # from the URL that the POST happens to, see browser console
-        DOWNLOADID = "3 b7958a069be4705abed586abf06b4b4";
+        DOWNLOADID = "3b7958a069be4705abed586abf06b4b4";
         # from the URL the download page where you click the "only download" button is at
         REFERID = "916fbc626dea4bb6a4f54a443e3e1c22";
         SITEURL = "https://www.blackmagicdesign.com/api/register/us/download/${DOWNLOADID}";
