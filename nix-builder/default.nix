@@ -14,7 +14,10 @@ let
       "--enable-nonfree"
       "--enable-decklink"
     ];
-    nativeBuildInputs = oldAttrs.nativeBuildInputs or [ ] ++ [ pkgs.makeWrapper ];
+    nativeBuildInputs = oldAttrs.nativeBuildInputs or [ ] ++ [
+      pkgs.makeWrapper
+      pkgs.addOpenGLRunpathHook
+    ];
     buildInputs = oldAttrs.buildInputs ++ [
       pkgs.blackmagic-desktop-video
       decklinkSdk
