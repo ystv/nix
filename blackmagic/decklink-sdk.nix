@@ -32,7 +32,7 @@ stdenv.mkDerivation rec {
       rec {
         outputHashMode = "recursive";
         outputHashAlgo = "sha256";
-        outputHash = "sha256-gKUx9bvvLK9Ay0tCq3rWXkoDTtFIE+K3XkomU/zHwLA=";
+        outputHash = "sha256-BaSLfmABhvdacjk/lP9jDZ6oN03fqztyjn0o2IpwZ24=";
 
         impureEnvVars = lib.fetchers.proxyImpureEnvVars;
 
