@@ -7,21 +7,21 @@
   stdenv,
   autoPatchelfHook,
   libcxx,
-  libcxxabi,
+  # libcxxabi,
   libGL,
-  gcc7,
+# gcc7,
 }:
 
 stdenv.mkDerivation rec {
   pname = "decklink-sdk";
-  version = "15.0";
+  version = "14.0";
 
   buildInputs = [
     autoPatchelfHook
     libcxx
-    libcxxabi
+    # libcxxabi
     libGL
-    gcc7.cc.lib
+    # gcc7.cc.lib
     unzip
   ];
 
@@ -32,7 +32,7 @@ stdenv.mkDerivation rec {
       rec {
         outputHashMode = "recursive";
         outputHashAlgo = "sha256";
-        outputHash = "sha256-0YyOh1CJA0l+vvrEnIXVTBvbZm4V/2x2VAXMqAO7DGs=";
+        outputHash = "sha256-gKUx9bvvLK9Ay0tCq3rWXkoDTtFIE+K3XkomU/zHwLA=";
 
         impureEnvVars = lib.fetchers.proxyImpureEnvVars;
 
@@ -45,9 +45,9 @@ stdenv.mkDerivation rec {
         SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 
         # from the URL that the POST happens to, see browser console
-        DOWNLOADID = "d3a03e1609584ce6bee2f73813cc8a89";
+        DOWNLOADID = "3 b7958a069be4705abed586abf06b4b4";
         # from the URL the download page where you click the "only download" button is at
-        REFERID = "31336991b8b64380bc79e94faf971126";
+        REFERID = "916fbc626dea4bb6a4f54a443e3e1c22";
         SITEURL = "https://www.blackmagicdesign.com/api/register/us/download/${DOWNLOADID}";
 
         USERAGENT = builtins.concatStringsSep " " [
@@ -70,7 +70,7 @@ stdenv.mkDerivation rec {
           city = "234";
           zip = "2344";
           state = "Alaska";
-          product = "Desktop Video 12.5 SDK";
+          product = "Desktop Video 14.0 SDK";
           origin = "www.blackmagicdesign.com";
         };
 
@@ -98,7 +98,7 @@ stdenv.mkDerivation rec {
     echo $NIX_BUILD_TOP
 
     mkdir -p $out/include
-    cp -r $NIX_BUILD_TOP/Blackmagic\ DeckLink\ SDK\ 15.0/Linux/include $out
+    cp -r $NIX_BUILD_TOP/Blackmagic\ DeckLink\ SDK\ 14.0/Linux/include $out
 
     runHook postInstall
   '';
