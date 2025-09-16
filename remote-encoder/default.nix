@@ -2,6 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 # Just testing something
+# ffmpeg -f decklink -i 'DeckLink Mini Recorder 4K'     -c:v libx264 -preset ultrafast -tune zerolatency     -pix_fmt yuv420p -profile:v high -level 4.2     -b:v 25M -maxrate 25M -bufsize 25M     -g 50 -keyint_min 50 -sc_threshold 0     -c:a aac -ar 48000 -b:a 128k     -muxdelay 0 -muxpreload 0     -f mpegts "srt://host.moir.xyz:6969?streamid=publish:zenith&latency=125&pkt_size=1316"
 
 {
   inputs,
@@ -15,15 +16,30 @@ let
   locale = "en_GB.UTF-8";
   timezone = "Europe/London";
 
-  gstPlugins = with pkgs.gst_all_1; [
-    gstreamer.out
-    gst-plugins-base
-    gst-plugins-good
-    gst-plugins-bad
-    gst-plugins-ugly
-    gst-libav
-  ];
-  pluginPaths = builtins.concatStringsSep ":" (map (p: "${p}/lib/gstreamer-1.0") gstPlugins);
+  decklink-sdk = pkgs.callPackage ../blackmagic/decklink-sdk.nix { };
+
+  ffmpeg-decklink = pkgs.ffmpeg.overrideAttrs (oldAttrs: {
+    configureFlags = oldAttrs.configureFlags ++ [
+      "--enable-nonfree"
+      "--enable-decklink"
+    ];
+    nativeBuildInputs = oldAttrs.nativeBuildInputs or [ ] ++ [
+      pkgs.makeWrapper
+    ];
+    buildInputs = oldAttrs.buildInputs ++ [
+      pkgs.blackmagic-desktop-video
+      decklink-sdk
+    ];
+
+    postFixup = ''
+      patchelf --add-rpath ${pkgs.libGL}/lib $lib/lib/libavcodec.so
+      patchelf --add-rpath ${pkgs.libGL}/lib $lib/lib/libavutil.so
+
+      wrapProgram $bin/bin/ffmpeg \
+        --prefix LD_LIBRARY_PATH : ${pkgs.blackmagic-desktop-video}/lib
+    '';
+
+  });
 in
 {
   nix.settings.experimental-features = [
@@ -125,17 +141,10 @@ in
     curl
     dig
     speedtest-cli
-    ffmpeg-full
+    ffmpeg-decklink
     bashInteractive
 
     cacert
-
-    gst_all_1.gstreamer
-    gst_all_1.gst-plugins-base
-    gst_all_1.gst-plugins-good
-    gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-ugly
-    gst_all_1.gst-libav
 
     blackmagic-desktop-video
   ];
@@ -149,28 +158,17 @@ in
 
     serviceConfig = {
       ExecStart = ''
-        ${pkgs.gst_all_1.gstreamer}/bin/gst-launch-1.0 -v \
-          decklinkvideosrc device-number=0 connection=sdi mode=1080p50 ! \
-            queue leaky=downstream max-size-buffers=10 ! videoconvert ! \
-            video/x-raw, format=I420 ! videorate ! video/x-raw, framerate=50/1 ! \
-            x264enc tune=zerolatency bitrate=8000 speed-preset=superfast key-int-max=50 bframes=0 ! \
-            h264parse disable-passthrough=true ! identity drop-buffer-flags=delta-unit ! \
-            queue ! identity name=video silent=false sync=true ! mux. \
-          decklinkaudiosrc device-number=0 ! \
-            queue leaky=downstream max-size-buffers=10 ! audioconvert ! audioresample ! \
-            audio/x-raw,channels=2,rate=48000 ! \
-            voaacenc bitrate=192000 ! \
-            audio/mpeg,mpegversion=4,framed=true,stream-format=raw ! \
-            queue ! identity name=audio silent=false sync=true ! mux. \
-          mpegtsmux name=mux alignment=7 latency=200 ! \
-          srtsink uri="srt://host.moir.xyz:6969?streamid=publish:zenith" sync=false
+        ${ffmpeg-decklink}/bin/ffmpeg -f decklink -i 'DeckLink Mini Recorder 4K'
+          -c:v libx264 -preset ultrafast -tune zerolatency
+          -pix_fmt yuv420p -profile:v high -level 4.2
+          -b:v 25M -maxrate 25M -bufsize 25M
+          -g 50 -keyint_min 50 -sc_threshold 0
+          -c:a aac -ar 48000 -b:a 128k
+          -muxdelay 0 -muxpreload 0
+          -f mpegts "srt://host.moir.xyz:6969?streamid=publish:zenith&latency=125&pkt_size=1316"
       '';
       Restart = "always";
       RestartSec = "5s";
-      Environment = ''
-        GST_PLUGIN_SYSTEM_PATH_1_0=${pluginPaths}
-        LD_LIBRARY_PATH=${pkgs.blackmagic-desktop-video}/lib
-      '';
     };
   };
 
