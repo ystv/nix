@@ -2,7 +2,6 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 # Just testing something
-# ffmpeg -f decklink -i 'DeckLink Mini Recorder 4K'     -c:v libx264 -preset ultrafast -tune zerolatency     -pix_fmt yuv420p -profile:v high -level 4.2     -b:v 25M -maxrate 25M -bufsize 25M     -g 50 -keyint_min 50 -sc_threshold 0     -c:a aac -ar 48000 -b:a 128k     -muxdelay 0 -muxpreload 0     -f mpegts "srt://host.moir.xyz:6969?streamid=publish:zenith&latency=125&pkt_size=1316"
 
 {
   inputs,
