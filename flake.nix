@@ -13,8 +13,6 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    minegrub-theme.url = "github:Lxtharia/minegrub-theme";
   };
 
   outputs =
@@ -22,7 +20,6 @@
       nixpkgs,
       home-manager,
       agenix,
-      minegrub-theme,
       ...
     }:
     let
@@ -34,6 +31,9 @@
         inherit system;
         config = {
           allowUnfree = true;
+          permittedInsecurePackages = [
+            "broadcom-sta-6.30.223.271-57-6.12.43"
+          ];
         };
       };
 
@@ -46,7 +46,6 @@
 
       commonModules = [
         # home-manager.nixosModules.home-manager
-        inputs.minegrub-theme.nixosModules.default
         agenix.nixosModules.default
       ];
     in
@@ -66,8 +65,11 @@
         remote-encoder = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = sharedArgs;
-          modules = commonModules ++ [
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/iso-image.nix"
             {
+              image.fileName = "nixos-remote-encoder.iso";
+
               nixpkgs.pkgs = stable-pkgs;
             }
             ./remote-encoder
