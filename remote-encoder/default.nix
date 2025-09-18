@@ -164,7 +164,7 @@ in
           -g 50 -keyint_min 50 -sc_threshold 0 \
           -c:a aac -ar 48000 -b:a 128k \
           -muxdelay 0 -muxpreload 0 \
-          -f mpegts "srt://host.moir.xyz:6969?streamid=publish:zenith&latency=125&pkt_size=1316"
+          -f mpegts "srt://host.moir.xyz:6969?streamid=publish:zenith&latency=500&pkt_size=1316"
       '';
       Restart = "always";
       RestartSec = "5s";
