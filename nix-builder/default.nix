@@ -111,6 +111,16 @@ in
     ];
   };
 
+  services.spotifyd = {
+    enable = true;
+    settings = {
+      global = {
+        device_name = "Samsung Smart Fridge";
+        dbus_type = "system";
+      };
+    };
+  };
+
   # Install firefox.
   programs.firefox.enable = true;
 
