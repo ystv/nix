@@ -7,6 +7,8 @@ let
   locale = "en_GB.UTF-8";
   timezone = "Europe/London";
 
+  toml = pkgs.formats.toml { };
+
   spotifyd = pkgs.spotifyd.overrideAttrs (oldAttrs: {
     src = pkgs.fetchFromGitHub {
       owner = "Spotifyd";
@@ -16,7 +18,7 @@ let
     };
   });
 
-  spotifydConf = pkgs.formats.toml.generate "spotify.conf" {
+  spotifydConf = toml.generate "spotify.conf" {
     global = {
       device_name = "Samsung Smart Fridge";
       dbus_type = "system";
