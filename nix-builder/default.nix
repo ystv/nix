@@ -123,6 +123,10 @@ in
     };
   };
 
+  networking.hosts = {
+    "0.0.0.0" = [ "apresolve.spotify.com" ];
+  };
+
   networking.firewall.allowedUDPPorts = [ 5353 ];
   networking.firewall.allowedTCPPorts = [ 6969 ];
 
