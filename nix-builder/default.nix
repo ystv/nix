@@ -12,15 +12,15 @@ let
   spotifydSrc = pkgs.fetchFromGitHub {
     owner = "Spotifyd";
     repo = "spotifyd";
-    rev = "9a8c950b2f1f953a1167cff2c3500c5b39a85788";
-    hash = "sha256-fYDbxsEfK4KddvbCATLnjS7MuN45Mo4k4IKMUkhNffw=";
+    rev = "77337ec42dc7f86d0002dd06f172fd9c0c9ebc5c";
+    hash = "sha256-RucpAIQ3/U5qrxydKkHUrfVbP7hwFIFfnxZ3pCIgSww=";
   };
 
   spotifyd = pkgs.spotifyd.overrideAttrs (oldAttrs: {
     src = spotifydSrc;
     cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
       src = spotifydSrc;
-      hash = "sha256-Li26HKj5yMnaMibRYtDY45zx1AADYuXTwFw0IIE7WYE=";
+      hash = "sha256-mxH/vpA7mA5qobWtscic/jnJCVmX7J9kzeOqQWnu588=";
     };
   });
 
@@ -30,6 +30,7 @@ let
       dbus_type = "system";
       zeroconf_port = 6969;
       use_mpris = false;
+      backend = "pipe";
     };
   };
 in
@@ -115,7 +116,6 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -163,7 +163,6 @@ in
       ExecStart = "${spotifyd}/bin/spotifyd --no-daemon --cache-path /var/cache/spotifyd --config-path ${spotifydConf}";
       Restart = "always";
       RestartSec = 12;
-      DynamicUser = true;
       CacheDirectory = "spotifyd";
       SupplementaryGroups = [ "audio" ];
     };
