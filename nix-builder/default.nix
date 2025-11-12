@@ -6,6 +6,24 @@
 let
   locale = "en_GB.UTF-8";
   timezone = "Europe/London";
+
+  spotifyd = pkgs.spotifyd.overrideAttrs (oldAttrs: {
+    src = pkgs.lib.fetchFromGitHub {
+      owner = "Spotifyd";
+      repo = "spotifyd";
+      rev = "9a8c950b2f1f953a1167cff2c3500c5b39a85788";
+      hash = "sha256-IqJlqcau0AZAqQjlaEKzinqTdVUA48/m2Y3ioFP/4Zw=";
+    };
+  });
+
+  spotifydConf = pkgs.formats.toml.generate "spotify.conf" {
+    global = {
+      device_name = "Samsung Smart Fridge";
+      dbus_type = "system";
+      zeroconf_port = 6969;
+      use_mpris = false;
+    };
+  };
 in
 {
   imports = [
@@ -111,15 +129,35 @@ in
     ];
   };
 
-  services.spotifyd = {
-    enable = true;
-    settings = {
-      global = {
-        device_name = "Samsung Smart Fridge";
-        dbus_type = "system";
-        zeroconf_port = 6969;
-        use_mpris = false;
-      };
+  # services.spotifyd = {
+  #   enable = true;
+  #   package = spotifyd;
+  #   settings = {
+  #     global = {
+  #       device_name = "Samsung Smart Fridge";
+  #       dbus_type = "system";
+  #       zeroconf_port = 6969;
+  #       use_mpris = false;
+  #     };
+  #   };
+  # };
+
+  systemd.services.spotifyd = {
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
+    after = [
+      "network-online.target"
+      "sound.target"
+    ];
+    description = "spotifyd, a Spotify playing daemon";
+    environment.SHELL = "/bin/sh";
+    serviceConfig = {
+      ExecStart = "${spotifyd}/bin/spotifyd --no-daemon --cache-path /var/cache/spotifyd --config-path ${spotifydConf}";
+      Restart = "always";
+      RestartSec = 12;
+      DynamicUser = true;
+      CacheDirectory = "spotifyd";
+      SupplementaryGroups = [ "audio" ];
     };
   };
 
