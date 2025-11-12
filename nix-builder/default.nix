@@ -118,6 +118,7 @@ in
         device_name = "Samsung Smart Fridge";
         dbus_type = "system";
         zeroconf_port = 6969;
+        use_mpris = false;
       };
     };
   };
