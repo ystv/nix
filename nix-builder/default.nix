@@ -8,7 +8,7 @@ let
   timezone = "Europe/London";
 
   spotifyd = pkgs.spotifyd.overrideAttrs (oldAttrs: {
-    src = pkgs.lib.fetchFromGitHub {
+    src = pkgs.fetchFromGitHub {
       owner = "Spotifyd";
       repo = "spotifyd";
       rev = "9a8c950b2f1f953a1167cff2c3500c5b39a85788";
