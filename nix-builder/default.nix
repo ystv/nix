@@ -9,12 +9,18 @@ let
 
   toml = pkgs.formats.toml { };
 
+  spotifydSrc = pkgs.fetchFromGitHub {
+    owner = "Spotifyd";
+    repo = "spotifyd";
+    rev = "9a8c950b2f1f953a1167cff2c3500c5b39a85788";
+    hash = "sha256-fYDbxsEfK4KddvbCATLnjS7MuN45Mo4k4IKMUkhNffw=";
+  };
+
   spotifyd = pkgs.spotifyd.overrideAttrs (oldAttrs: {
-    src = pkgs.fetchFromGitHub {
-      owner = "Spotifyd";
-      repo = "spotifyd";
-      rev = "9a8c950b2f1f953a1167cff2c3500c5b39a85788";
-      hash = "sha256-IqJlqcau0AZAqQjlaEKzinqTdVUA48/m2Y3ioFP/4Zw=";
+    src = spotifydSrc;
+    cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
+      src = spotifydSrc;
+      hash = "sha256-Li26HKj5yMnaMibRYtDY45zx1AADYuXTwFw0IIE7WYE=";
     };
   });
 
@@ -161,10 +167,6 @@ in
       CacheDirectory = "spotifyd";
       SupplementaryGroups = [ "audio" ];
     };
-  };
-
-  networking.hosts = {
-    "0.0.0.0" = [ "apresolve.spotify.com" ];
   };
 
   networking.firewall.allowedUDPPorts = [ 5353 ];
