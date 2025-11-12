@@ -17,6 +17,7 @@ let
   };
 
   spotifyd = pkgs.spotifyd.overrideAttrs (oldAttrs: {
+    version = "v0.4.2";
     src = spotifydSrc;
     cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
       src = spotifydSrc;
@@ -30,7 +31,7 @@ let
       dbus_type = "system";
       zeroconf_port = 6969;
       use_mpris = false;
-      backend = "pipe";
+      backend = "pulseaudio";
     };
   };
 in
@@ -136,19 +137,6 @@ in
       kdePackages.kate
     ];
   };
-
-  # services.spotifyd = {
-  #   enable = true;
-  #   package = spotifyd;
-  #   settings = {
-  #     global = {
-  #       device_name = "Samsung Smart Fridge";
-  #       dbus_type = "system";
-  #       zeroconf_port = 6969;
-  #       use_mpris = false;
-  #     };
-  #   };
-  # };
 
   systemd.services.spotifyd = {
     wantedBy = [ "multi-user.target" ];
