@@ -31,7 +31,7 @@ let
       dbus_type = "system";
       zeroconf_port = 6969;
       use_mpris = false;
-      backend = "pulseaudio";
+      # backend = "pulseaudio";
     };
   };
 in
@@ -117,13 +117,14 @@ in
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  # };
+  hardware.alsa.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.broadcast = {
@@ -167,6 +168,7 @@ in
     wget
     git
     vlc
+    alsa-utils
   ];
 
   services.openssh.enable = true;
