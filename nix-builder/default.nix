@@ -117,9 +117,13 @@ in
       global = {
         device_name = "Samsung Smart Fridge";
         dbus_type = "system";
+        zeroconf_port = 6969;
       };
     };
   };
+
+  networking.firewall.allowedUDPPorts = [ 5353 ];
+  networking.firewall.allowedTCPPorts = [ 6969 ];
 
   # Install firefox.
   programs.firefox.enable = true;
