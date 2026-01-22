@@ -28,11 +28,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1769119836,
-        "narHash": "sha256-HO0Ljw+/saRA2AfZIzjRBmgfBw69sxnNb6eDK34AYxY=",
+        "lastModified": 1769123410,
+        "narHash": "sha256-70+bRh8Cshq3z+ELXGpHnVCqJhgjnB4Bv+pgfuerGhw=",
         "owner": "archessmn",
         "repo": "nix-bitfocus-companion",
-        "rev": "4e05ce1e50cb041bac1f7565f0b85445962ede81",
+        "rev": "4d4d75e8e2662ae122c5ae29785cb34534fbb59a",
         "type": "github"
       },
       "original": {
