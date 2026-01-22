@@ -171,6 +171,13 @@ in
     alsa-utils
   ];
 
+  programs.companion = {
+    enable = true;
+    runAsService = true;
+    user = "companion";
+    group = "companion";
+  };
+
   services.openssh.enable = true;
 
   # This value determines the NixOS release from which the default

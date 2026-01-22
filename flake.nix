@@ -13,6 +13,8 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    companion.url = "github:noblepayne/bitfocus-companion-flake";
   };
 
   outputs =
@@ -20,6 +22,7 @@
       nixpkgs,
       home-manager,
       agenix,
+      companion,
       ...
     }:
     let
@@ -47,6 +50,7 @@
       commonModules = [
         # home-manager.nixosModules.home-manager
         agenix.nixosModules.default
+        companion.nixosModules.default
       ];
     in
     rec {
