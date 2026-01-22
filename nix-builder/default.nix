@@ -174,8 +174,8 @@ in
   programs.companion = {
     enable = true;
     runAsService = true;
-    user = "companion";
-    group = "companion";
+    user = "broadcast";
+    group = "users";
   };
 
   services.openssh.enable = true;
