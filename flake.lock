@@ -23,6 +23,24 @@
         "type": "github"
       }
     },
+    "companion": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1769119836,
+        "narHash": "sha256-HO0Ljw+/saRA2AfZIzjRBmgfBw69sxnNb6eDK34AYxY=",
+        "owner": "archessmn",
+        "repo": "nix-bitfocus-companion",
+        "rev": "4e05ce1e50cb041bac1f7565f0b85445962ede81",
+        "type": "github"
+      },
+      "original": {
+        "owner": "archessmn",
+        "repo": "nix-bitfocus-companion",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -89,6 +107,22 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1761373498,
+        "narHash": "sha256-Q/uhWNvd7V7k1H1ZPMy/vkx3F8C13ZcdrKjO7Jv7v0c=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "6a08e6bb4e46ff7fcbb53d409b253f6bad8a28ce",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1762844143,
         "narHash": "sha256-SlybxLZ1/e4T2lb1czEtWVzDCVSTvk9WLwGhmxFmBxI=",
         "owner": "nixos",
@@ -106,8 +140,9 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "companion": "companion",
         "home-manager": "home-manager_2",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "systems": {

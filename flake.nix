@@ -14,7 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    companion.url = "github:noblepayne/bitfocus-companion-flake";
+    companion.url = "github:archessmn/nix-bitfocus-companion";
   };
 
   outputs =
