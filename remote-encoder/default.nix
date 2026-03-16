@@ -49,7 +49,7 @@ in
 
   boot.kernelModules = [ "wl" ];
   hardware.enableRedistributableFirmware = true;
-  boot.extraModulePackages = with pkgs.linuxPackages; [ broadcom_sta ];
+  # boot.extraModulePackages = with pkgs.linuxPackages; [ broadcom_sta ];
 
   isoImage.makeEfiBootable = true;
   isoImage.makeUsbBootable = true;
@@ -73,27 +73,27 @@ in
 
   networking.networkmanager.enable = true;
 
-  networking.networkmanager.ensureProfiles = {
-    profiles = {
-      "mydevices-wifi" = {
-        connection = {
-          id = "mydevices-wifi";
-          type = "wifi";
-          autoconnect = true;
-        };
-        wifi = {
-          ssid = "mydevices";
-          mode = "infrastructure";
-        };
-        wifi-security = {
-          key-mgmt = "wpa-psk";
-          # This is not really a secret as just knowing this provides no access to the network
-          # Any devices using this must be registered on mydevices
-          psk = "connectme";
-        };
-      };
-    };
-  };
+  # networking.networkmanager.ensureProfiles = {
+  #   profiles = {
+  #     "mydevices-wifi" = {
+  #       connection = {
+  #         id = "mydevices-wifi";
+  #         type = "wifi";
+  #         autoconnect = true;
+  #       };
+  #       wifi = {
+  #         ssid = "mydevices";
+  #         mode = "infrastructure";
+  #       };
+  #       wifi-security = {
+  #         key-mgmt = "wpa-psk";
+  #         # This is not really a secret as just knowing this provides no access to the network
+  #         # Any devices using this must be registered on mydevices
+  #         psk = "connectme";
+  #       };
+  #     };
+  #   };
+  # };
 
   time.timeZone = "${timezone}";
 
